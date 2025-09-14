@@ -28,8 +28,8 @@ def introduce_game_story():
     print("\nand unlock the secrets of mystical chests that hold the key to ultimate power. Will the hero emerge victorious or succumb to the perils that lie ahead?")
     wait_for_user()
 
-    def wait_for_user():
-        input("\nPress Enter to continue...")
+def wait_for_user():
+    input("\nPress Enter to continue...")
 
 
 
