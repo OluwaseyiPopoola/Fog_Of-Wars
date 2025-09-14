@@ -65,8 +65,16 @@ class Spy(Enemy):
     def __init__(self, position):
         super().__init__("Spy", position, MAX // 7, MAX // 7)
         self.symbol = 'S'
-        
-           
+
+class Chest:
+    def __init__(self, value, position):
+        self.value = value
+        self.position = position
+        self.symbol = 'C'
+
+class RegularChest(Chest): 
+    def __init__(self, position):
+        super().__init__(randint(1, MAX//10), position)       
 
 
 
