@@ -73,7 +73,7 @@ class RegularChest(Chest):
     def __init__(self, position):
         super().__init__(randint(1, MAX//10), position)
 
-    def open(self, character):
+    def open_chest(self, character):
         character.add_strength(self.value)
         character.add_attack(self.value)
         print(f"{character.name} opened a Regular Chest and gained {self.value} strength and attack!")
@@ -81,6 +81,18 @@ class RegularChest(Chest):
 class Orbchest(Chest):
     pass
 
+class OrbChest1(Orbchest):
+    def open_chest(self, character):
+        character.strength //= 2
+        character.attack *= 2
+        print(f"Orb Chest 1 opened! {self.hero.name}'s strength halved and attack doubled.")
+
+       
+class OrbChest2(Orbchest):
+    def open_chest(self, character):
+        character.strength *= 2
+        character.attack //= 2
+        print(f"Orb Chest 2 opened! {self.hero.name}'s strength doubled and attack halved.")
 
 
 
