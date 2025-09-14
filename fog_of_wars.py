@@ -78,9 +78,8 @@ class RegularChest(Chest):
         character.add_attack(self.value)
         print(f"{character.name} opened a Regular Chest and gained {self.value} strength and attack!")
 
-
-
-
+class Orbchest(Chest):
+    pass
 
 
 
