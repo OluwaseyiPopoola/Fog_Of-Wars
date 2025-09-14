@@ -51,8 +51,22 @@ class Enemy(Character):
         super().__init__(name, position, strength, attack)
         self.name = name
 
+class Warrior(Enemy):
+    def __init__(self, position):
+        super().__init__("Warrior", position, MAX // 3, MAX // 3)
+        self.symbol = 'W'
 
-    
+class Paladin(Enemy):
+    def __init__(self, position):
+        super().__init__("Paladin", position, MAX // 5, MAX // 5)
+        self.symbol = 'P'
+
+class Spy(Enemy):
+    def __init__(self, position):
+        super().__init__("Spy", position, MAX // 7, MAX // 7)
+        self.symbol = 'S'
+        
+           
 
 
 
