@@ -21,11 +21,12 @@ class Board:
 
 
 class Character:
-    def __init__(self, position, strength, attack, symbol):
+    def __init__(self, name, position, strength, attack, symbol):
         self.position = position
         self.strength = strength
         self.attack = attack  
         self.symbol = symbol
+        self.name = name
 
 
     def add_strength(self, amount):
@@ -42,11 +43,13 @@ class Character:
 
 class Hero(Character):
     def __init__(self, name, position,):
-        super().__init__(position, randint(MAX//10, MAX), randint(MAX//10, MAX), 'H')
+        super().__init__(name, position, randint(MAX//10, MAX), randint(MAX//10, MAX), 'H')
+        
+
+class Enemy(Character):
+    def __init__(self, name, position, strength, attack):
+        super().__init__(name, position, strength, attack)
         self.name = name
-
-    
-
 
 
     
@@ -65,8 +68,7 @@ def main():
     
     introduce_game_story()
     board = Board()
-    print(board.board_positions_objects)
-
+    
 
 def display_game_title(msg):
     f = Figlet(font='rectangles')
