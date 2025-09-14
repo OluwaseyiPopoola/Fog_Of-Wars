@@ -11,7 +11,7 @@ class Board:
         self.board_positions_objects = {(row, col): None for row in range(self.rows) for col in range(self.cols)}
 
         for wall in self.walls: 
-            self.board_positions_objects[wall] = 'WALL'
+            self.board_positions_objects[wall] = '#'
 
 
     def add_object(self, obj, position):
@@ -19,9 +19,27 @@ class Board:
             self.board_positions_objects[position] = obj
 
 
+class Character:
+    def __init__(self, position, strength, attack, symbol):
+        self.position = position
+        self.strength = strength
+        self.attack = attack  
+        self.symbol = symbol
 
 
+    def add_strength(self, amount):
+        self.strength += amount
     
+    def reduce_strength(self, amount):
+        self.strength -= amount
+
+    def add_attack(self, amount):
+        self.attack += amount
+
+    def reduce_attack(self, amount):
+        self.attack -= amount
+
+
 
 
     
