@@ -74,7 +74,13 @@ class Chest:
 
 class RegularChest(Chest): 
     def __init__(self, position):
-        super().__init__(randint(1, MAX//10), position)       
+        super().__init__(randint(1, MAX//10), position)
+
+    def open(self, character):
+        character.add_strength(self.value)
+        character.add_attack(self.value)
+        print(f"{character.name} opened a Regular Chest and gained {self.value} strength and attack!")
+
 
 
 
