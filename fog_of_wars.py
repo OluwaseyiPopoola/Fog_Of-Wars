@@ -1,4 +1,30 @@
 from pyfiglet import Figlet
+from random import randint
+
+class Board:
+    def __init__(self):
+        self.rows = randint(10, 20)
+        self.cols = randint(10, 20)
+
+        self.walls = set((randint(0, self.rows-1), randint(0, self.cols-1)) for _ in range(randint(int(0.05*self.rows*self.cols), int(0.20*self.rows*self.cols))))
+
+        self.board_positions_objects = {(row, col): None for row in range(self.rows) for col in range(self.cols)}
+
+        for wall in self.walls: 
+            self.board_positions_objects[wall] = 'WALL'
+
+
+    def add_object(self, obj, position):
+        if position in self.board_positions_objects:
+            self.board_positions_objects[position] = obj
+
+
+
+
+    
+
+
+    
 
 
 
@@ -13,6 +39,8 @@ def main():
     print(f"\n{input("Press Enter to start the game...")}")
     
     introduce_game_story()
+    board = Board()
+    print(board.board_positions_objects)
 
 
 def display_game_title(msg):
