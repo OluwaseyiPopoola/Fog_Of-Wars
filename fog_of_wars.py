@@ -1,5 +1,6 @@
 from pyfiglet import Figlet
 from random import randint
+MAX = 100
 
 class Board:
     def __init__(self):
@@ -39,6 +40,12 @@ class Character:
     def reduce_attack(self, amount):
         self.attack -= amount
 
+class Hero(Character):
+    def __init__(self, name, position,):
+        super().__init__(position, randint(MAX//10, MAX), randint(MAX//10, MAX), 'H')
+        self.name = name
+
+    
 
 
 
