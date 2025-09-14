@@ -21,11 +21,11 @@ def display_game_title(msg):
 
 def introduce_game_story():
 
-    print("\nIn a land shrouded by the Fog of War, a lone hero embarks on a quest to vanquish enemies and uncover hidden treasures.")
+    print("\nIn a land shrouded by the Fog of War, \na lone hero embarks on a quest to vanquish enemies and uncover hidden treasures.")
     wait_for_user()
-    print("\nArmed with courage and determination, the hero must navigate through treacherous terrains, face formidable foes, ")
+    print("\nArmed with courage and determination, \nthe hero must navigate through treacherous terrains, face formidable foes, ")
     wait_for_user()
-    print("\nand unlock the secrets of mystical chests that hold the key to ultimate power. Will the hero emerge victorious or succumb to the perils that lie ahead?")
+    print("\nAnd unlock the secrets of mystical chests that hold the key to ultimate power. \nWill the hero emerge victorious or succumb to the perils that lie ahead?")
     wait_for_user()
 
 def wait_for_user():
