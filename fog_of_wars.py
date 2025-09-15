@@ -15,11 +15,28 @@ class Board:
             self.board_positions_objects[wall_positions] = '#'
 
 
-        enemies = [Warrior(self.get_random_empty_position()), Paladin(self.get_random_empty_position()), Spy(self.get_random_empty_position()) for _ in range(self.cols // 3)]
+        self.warriors = [Warrior(self.get_random_empty_position()) for _ in range(self.cols // 3)]
+        self.paladins = [Paladin(self.get_random_empty_position()) for _ in range(self.cols // 3)]
+        self.spies = [Spy(self.get_random_empty_position()) for _ in range(self.cols - (2 * (self.cols // 3)))]
+    
+        self.enemies = self.warriors + self.paladins + self.spies
 
-        for enemy in enemies:
+        for enemy in self.enemies:
             self.add_object(enemy, tuple(enemy.position)) 
 
+        self.regularchests = [RegularChest(self.get_random_empty_position()) for _ in range(self.cols // 5)]
+        self.orbchests1 = [OrbChest1(self.get_random_empty_position()) for _ in range(self.cols // 5)]
+        self.orbchests2 = [OrbChest2(self.get_random_empty_position()) for _ in range(self.cols // 5)]
+        self.orbchests3 = [Orbchest3(self.get_random_empty_position()) for _ in range(self.cols // 5)]
+
+        self.chests = self.regularchests + self.orbchests1 + self.orbchests2 + self.orbchests3
+        
+
+
+        for chest in self.chests:
+            self.add_object(chest, tuple(chest.position))
+
+        
     def get_random_empty_position(self):
         empty_positions = [pos for pos in self.board_positions_objects if self.board_positions_objects[pos] is None]
         return empty_positions[randint(0, len(empty_positions)-1)] if empty_positions else None
@@ -121,6 +138,21 @@ class Orbchest3(OrbChest):
         else:
             print("No enemies to remove.")
 
+class TeleportChest(Chest):
+    """Teleport the hero within ten rows and ten columns of his current position where there coould be chests or enemy but no wall"""
+    def open_chest(self, character, board):
+        possible_positions = []
+        for r in range(max(0, character.position[0] - 10), min(board.rows, character.position[0] + 11)):
+            for c in range(max(0, character.position[1] - 10), min(board.cols, character.position[1] + 11)):
+                if board.board_positions_objects[(r, c)] is not '#': # No wall
+                    possible_positions.append((r, c))
+        
+        if possible_positions:
+            new_position = possible_positions[randint(0, len(possible_positions) - 1)]
+            character.position = new_position
+            print(f"{character.name} teleported to {new_position}.")
+        else:
+            print("No valid positions to teleport.")
 
 
 def get_nearest_combatant(character, combatants):
@@ -142,7 +174,7 @@ def main():
     
     introduce_game_story()
     board = Board()
-    hero = Hero(input("Enter your hero's name: "), get_random_empty_position(board))
+    hero = Hero(input("Enter your hero's name: "), choose_empty_position(board))
     
 
 def display_game_title(msg):
@@ -162,8 +194,23 @@ def introduce_game_story():
 def wait_for_user():
     input("\nPress Enter to continue...")
 
-def get_random_empty_position(board):
+def choose_empty_position(board):  
+    empty_positions = [pos for pos, obj in board.board_positions_objects.items() if obj is None]
 
+    print("\nAvailable positions for your hero:")
+    for idx, pos in enumerate(empty_positions):
+        print(f"{idx + 1}: {pos}")
+
+    while True:
+        try:
+            choice = int(input(f"Choose a position (1-{len(empty_positions)}): ")) - 1
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+        else:   
+            if 0 <= choice < len(empty_positions):
+                return empty_positions[choice]
+            else:
+                print("Invalid choice. Please select a valid position number.")
 
 
 
