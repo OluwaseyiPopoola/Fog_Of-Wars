@@ -11,8 +11,20 @@ class Board:
 
         self.board_positions_objects = {(row, col): None for row in range(self.rows) for col in range(self.cols)}
 
-        for wall in self.walls: 
-            self.board_positions_objects[wall] = '#'
+        for wall_positions in self.walls: 
+            self.board_positions_objects[wall_positions] = '#'
+
+
+        enemies = [Warrior(self.get_random_empty_position()), Paladin(self.get_random_empty_position()), Spy(self.get_random_empty_position()) for _ in range(self.cols // 3)]
+
+        for enemy in enemies:
+            self.add_object(enemy, tuple(enemy.position)) 
+
+    def get_random_empty_position(self):
+        empty_positions = [pos for pos in self.board_positions_objects if self.board_positions_objects[pos] is None]
+        return empty_positions[randint(0, len(empty_positions)-1)] if empty_positions else None
+
+        
 
 
     def add_object(self, obj, position):
@@ -109,6 +121,8 @@ class Orbchest3(OrbChest):
         else:
             print("No enemies to remove.")
 
+
+
 def get_nearest_combatant(character, combatants):
     if not combatants:
         return None
@@ -128,6 +142,7 @@ def main():
     
     introduce_game_story()
     board = Board()
+    hero = Hero(input("Enter your hero's name: "), get_random_empty_position(board))
     
 
 def display_game_title(msg):
@@ -146,6 +161,9 @@ def introduce_game_story():
 
 def wait_for_user():
     input("\nPress Enter to continue...")
+
+def get_random_empty_position(board):
+
 
 
 
