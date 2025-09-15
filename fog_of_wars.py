@@ -41,6 +41,12 @@ class Character:
     def reduce_attack(self, amount):
         self.attack -= amount
 
+    def die(self):
+        print(f"{self.name} has been defeated!")
+        self.strength = 0
+        self.attack = 0
+        self.position = None
+
 class Hero(Character):
     def __init__(self, name, position,):
         super().__init__(name, position, randint(MAX//10, MAX), randint(MAX//10, MAX), 'H')
@@ -78,22 +84,40 @@ class RegularChest(Chest):
         character.add_attack(self.value)
         print(f"{character.name} opened a Regular Chest and gained {self.value} strength and attack!")
 
-class Orbchest(Chest):
+class OrbChest(Chest):
     pass
 
-class OrbChest1(Orbchest):
+class OrbChest1(OrbChest):
     def open_chest(self, character):
         character.strength //= 2
         character.attack *= 2
         print(f"Orb Chest 1 opened! {self.hero.name}'s strength halved and attack doubled.")
 
        
-class OrbChest2(Orbchest):
+class OrbChest2(OrbChest):
     def open_chest(self, character):
         character.strength *= 2
         character.attack //= 2
         print(f"Orb Chest 2 opened! {self.hero.name}'s strength doubled and attack halved.")
 
+class Orbchest3(OrbChest):
+    def open_chest(self, character, combatants):
+        nearest_combatant = get_nearest_combatant(character, combatants)
+        if nearest_combatant:
+            nearest_combatant.die()
+            print(f"Orb Chest 3 opened! Nearest combatant {nearest_combatant.name} has been removed from the game.")
+        else:
+            print("No enemies to remove.")
+
+def get_nearest_combatant(character, combatants):
+    if not combatants:
+        return None
+    nearest_enemy = min(combatants, key=lambda enemy: get_distance(character, enemy))
+    return nearest_enemy
+
+def get_distance(character1, character2):
+    return ((character1.position[0] - character2.position[0]) ** 2 + (character1.position[1] - character2.position[1]) ** 2) ** 0.5  
+    
 
 
 
@@ -118,6 +142,7 @@ def introduce_game_story():
     wait_for_user()
     print("\nAnd unlock the secrets of mystical chests that hold the key to ultimate power. \nWill the hero emerge victorious or succumb to the perils that lie ahead?")
     wait_for_user()
+
 
 def wait_for_user():
     input("\nPress Enter to continue...")
