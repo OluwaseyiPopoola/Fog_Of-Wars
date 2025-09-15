@@ -84,11 +84,29 @@ class Character:
 class Hero(Character):
     def __init__(self, name, position,):
         super().__init__(name, position, randint(MAX//10, MAX), randint(MAX//10, MAX), 'H')
+
+    def move_wasdx(self, direction, board):
+        row, col = self.position
+
+        if direction.upper() == 'W':
+            new_pos = (row - 1, col)
+        elif direction.upper() == 'S':
+            new_pos = (row + 1, col)
+        elif direction.upper() == 'A':
+            new_pos = (row, col - 1)
+        elif direction.upper() == 'D':
+            new_pos = (row, col + 1)
+        elif direction.upper() == 'X':
+            new_pos = (row, col)  # stay in place
         
+        board.update_character_position(self, new_pos)
+              
 
 class Enemy(Character):
     def __init__(self, name, position, strength, attack):
         super().__init__(name, position, strength, attack, 'E')
+
+    
 
 
 class Warrior(Enemy):
