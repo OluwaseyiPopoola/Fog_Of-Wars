@@ -44,6 +44,13 @@ class Board:
         if position in self.board_positions_objects:
             self.board_positions_objects[position] = obj
 
+    def update_character_position(self, character, new_position):
+        if character.position: 
+            self.board_positions_objects[character.position] = None
+        
+        character.position = new_position
+        self.board_positions_objects[new_position] = character
+
 
 class Character:
     def __init__(self, name, position, strength, attack, symbol):
@@ -141,8 +148,6 @@ class TeleportChest(Chest):
     def __init__(self, position):
         super().__init__(1, position)  # fixed init
 
-    """Teleport the hero within ten rows and ten columns of his current position 
-    where there could be chests or enemies but no wall"""
     def open_chest(self, character, board):
         possible_positions = []
         for r in range(max(0, character.position[0] - 10), min(board.rows, character.position[0] + 11)):
