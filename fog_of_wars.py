@@ -91,14 +91,14 @@ class OrbChest1(OrbChest):
     def open_chest(self, character):
         character.strength //= 2
         character.attack *= 2
-        print(f"Orb Chest 1 opened! {self.hero.name}'s strength halved and attack doubled.")
+        print(f"Orb Chest 1 opened! {character.name}'s strength halved and attack doubled.")
 
        
 class OrbChest2(OrbChest):
     def open_chest(self, character):
         character.strength *= 2
         character.attack //= 2
-        print(f"Orb Chest 2 opened! {self.hero.name}'s strength doubled and attack halved.")
+        print(f"Orb Chest 2 opened! {character.name}'s strength doubled and attack halved.")
 
 class Orbchest3(OrbChest):
     def open_chest(self, character, combatants):
