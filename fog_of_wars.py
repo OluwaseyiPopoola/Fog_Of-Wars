@@ -79,6 +79,8 @@ class Character:
         self.attack = 0
         self.position = None
 
+        
+
 class Hero(Character):
     def __init__(self, name, position,):
         super().__init__(name, position, randint(MAX//10, MAX), randint(MAX//10, MAX), 'H')
@@ -157,7 +159,9 @@ class TeleportChest(Chest):
         
         if possible_positions:
             new_position = possible_positions[randint(0, len(possible_positions) - 1)]
-            character.position = new_position
+            
+            board.update_character_position(character, new_position)
+
             print(f"{character.name} teleported to {new_position}.")
         else:
             print("No valid positions to teleport.")
