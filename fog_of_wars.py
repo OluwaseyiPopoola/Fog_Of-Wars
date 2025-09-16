@@ -280,6 +280,8 @@ def main():
     introduce_game_story()
     board = Board()
     hero = Hero(input("Enter your hero's name: "), choose_empty_position(board))
+    board.add_object(hero, hero.position)
+    
     
 
 def display_game_title(msg):
