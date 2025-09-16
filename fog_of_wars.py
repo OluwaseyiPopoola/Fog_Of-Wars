@@ -1,5 +1,7 @@
 from pyfiglet import Figlet
 from random import randint
+from time import sleep
+
 MAX = 100
 
 class Board:
@@ -43,11 +45,11 @@ class Board:
             for col in range(self.cols):
                 obj = self.board_positions_objects[(row, col)]
                 if obj is None:
-                    print('.', end=' ')
+                    print('.', end='  ')
                 elif obj == '#':
-                    print('#', end=' ')
+                    print('#', end='  ')
                 else:
-                    print(obj.symbol, end=' ')
+                    print(obj.symbol, end='  ')
             print()  # New line after each row
         print()  # Extra line for better readability
      
@@ -291,8 +293,12 @@ def main():
     input("Press Enter to start the game...")
     
     introduce_game_story()
+    
+    print("\nGenerating game board...\n")
+    sleep(2)  # Simulate loading time
     board = Board()
     board.display_full_board()
+    
     hero = Hero(input("Enter your hero's name: "), choose_empty_position(board))
     board.add_object(hero, hero.position)
     
