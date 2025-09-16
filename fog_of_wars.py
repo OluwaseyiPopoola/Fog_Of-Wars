@@ -45,8 +45,8 @@ class Board:
             self.board_positions_objects[position] = obj
 
     def update_character_position(self, character, new_position):
-        if character.position: 
-            self.board_positions_objects[character.position] = None
+        
+        self.board_positions_objects[character.position] = None
         
         character.position = new_position
         self.board_positions_objects[new_position] = character
