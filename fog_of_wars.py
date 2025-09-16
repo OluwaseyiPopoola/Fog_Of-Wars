@@ -49,6 +49,10 @@ class Board:
         self.board_positions_objects[character.position] = None
         
         character.position = new_position
+
+        former_obj = self.board_positions_objects[new_position]
+       
+
         self.board_positions_objects[new_position] = character
 
 
@@ -145,6 +149,9 @@ class Chest:
         self.value = value
         self.position = position
         self.symbol = 'C'
+
+    def open_chest(self, character):
+        pass
 
 class RegularChest(Chest): 
     def __init__(self, position):
