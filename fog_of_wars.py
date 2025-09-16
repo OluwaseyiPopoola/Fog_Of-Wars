@@ -6,14 +6,15 @@ class Board:
     def __init__(self):
         self.rows = randint(10, 20)
         self.cols = randint(10, 20)
+    
 
         self.walls = set((randint(0, self.rows-1), randint(0, self.cols-1)) for _ in range(randint(int(0.05*self.rows*self.cols), int(0.20*self.rows*self.cols))))
 
         self.board_positions_objects = {(row, col): None for row in range(self.rows) for col in range(self.cols)}
-
         for wall_positions in self.walls: 
             self.board_positions_objects[wall_positions] = '#'
 
+        self.hero = None
 
         self.warriors = [Warrior(self.get_random_empty_position()) for _ in range(self.cols // 3)]
         self.paladins = [Paladin(self.get_random_empty_position()) for _ in range(self.cols // 3)]
@@ -35,9 +36,7 @@ class Board:
         for chest in self.chests:
             self.add_object(chest, tuple(chest.position))
 
-        
-
-        self.combatants = self.enemies + self.chests
+        self.combatants = self.enemies.copy()
      
     def get_random_empty_position(self):
         empty_positions = [pos for pos in self.board_positions_objects if self.board_positions_objects[pos] is None]
@@ -47,7 +46,13 @@ class Board:
     def add_object(self, obj, position):
         if position in self.board_positions_objects:
             self.board_positions_objects[position] = obj
+
+        if isinstance(obj, Hero):
+            self.hero = obj
+            self.combatants.append(obj)
             
+
+    
 
     def update_character_position(self, character, new_position):
         
@@ -65,6 +70,7 @@ class Board:
             else:
                 former_obj.open_chest(character)
             self.board_positions_objects[new_position] = None
+            
             
 
         self.board_positions_objects[new_position] = character
