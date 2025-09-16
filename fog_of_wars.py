@@ -190,6 +190,13 @@ class Hero(Character):
                 new_pos = (row, col)
             else:
                 print("Invalid move. Please enter W, A, S, D, or X.")
+                continue
+            
+            # ✅ Actually update the board here
+            board.update_character_position(self, new_pos)
+            break
+
+            
               
 
 class Enemy(Character):
