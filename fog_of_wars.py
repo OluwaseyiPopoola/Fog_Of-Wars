@@ -34,6 +34,10 @@ class Board:
     
         for chest in self.chests:
             self.add_object(chest, tuple(chest.position))
+
+        
+
+        self.combatants = self.enemies + self.chests
      
     def get_random_empty_position(self):
         empty_positions = [pos for pos in self.board_positions_objects if self.board_positions_objects[pos] is None]
@@ -43,6 +47,7 @@ class Board:
     def add_object(self, obj, position):
         if position in self.board_positions_objects:
             self.board_positions_objects[position] = obj
+            
 
     def update_character_position(self, character, new_position):
         
@@ -51,14 +56,20 @@ class Board:
         character.position = new_position
 
         former_obj = self.board_positions_objects[new_position]
-        if isinstance(former_obj, Chest):
-            former_obj.open_chest(character)
 
-            
-            
+        if isinstance(former_obj, Chest):
+            if isinstance(former_obj, Orbchest3):
+                former_obj.open_chest(character, self.enemies)
+            elif isinstance(former_obj, TeleportChest):
+                former_obj.open_chest(character, self)
+            else:
+                former_obj.open_chest(character)
             self.board_positions_objects[new_position] = None
+            
+
         self.board_positions_objects[new_position] = character
 
+    def activate_former
 
 class Character:
     def __init__(self, name, position, strength, attack, symbol):
