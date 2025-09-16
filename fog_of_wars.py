@@ -52,6 +52,25 @@ class Board:
                     print(obj.symbol, end='  ')
             print()  # New line after each row
         print()  # Extra line for better readability
+
+    def display_hero_view(self, view_range=10):
+        if self.hero is None:
+            print("Hero not placed on the board.")
+            return
+
+        hero_row, hero_col = self.hero.position
+        for row in range(self.rows):
+            for col in range(self.cols):
+                if abs(row - hero_row) <= view_range and abs(col - hero_col) <= view_range:
+                    obj = self.board_positions_objects[(row, col)]
+                    if obj is None:
+                        print('.', end='  ')
+                    elif obj == '#':
+                        print('#', end='  ')
+                    else:
+                        print(obj.symbol, end='  ')
+            print()  # New line after each row
+        print()  # Extra line for better readability
      
     def get_random_empty_position(self):
         empty_positions = [pos for pos in self.board_positions_objects if self.board_positions_objects[pos] is None]
@@ -146,6 +165,7 @@ class Character:
             if self.strength <= 0:
                 self.die()
                 print(f"{self.name} has been defeated by {other.name}!")
+
 
         
 
@@ -293,11 +313,11 @@ def main():
     input("Press Enter to start the game...")
     
     introduce_game_story()
-    
+
     print("\nGenerating game board...\n")
     sleep(2)  # Simulate loading time
     board = Board()
-    board.display_full_board()
+    
     
     hero = Hero(input("Enter your hero's name: "), choose_empty_position(board))
     board.add_object(hero, hero.position)
