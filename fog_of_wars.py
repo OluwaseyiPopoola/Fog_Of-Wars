@@ -85,45 +85,23 @@ class Hero(Character):
     def __init__(self, name, position,):
         super().__init__(name, position, randint(MAX//10, MAX), randint(MAX//10, MAX), 'H')
 
-    def move_wasdx(self, direction, board):
+    def move_wasdx(self, board):
         row, col = self.position
-
-        if direction.upper() == 'W':
-            new_pos = (row - 1, col)
-        elif direction.upper() == 'S':
-            new_pos = (row + 1, col)
-        elif direction.upper() == 'A':
-            new_pos = (row, col - 1)
-        elif direction.upper() == 'D':
-            new_pos = (row, col + 1)
-        elif direction.upper() == 'X':
-            new_pos = (row, col)  # stay in place
-        
-        board.update_character_position(self, new_pos)
-              
-
-class Enemy(Character):
-    def __init__(self, name, position, strength, attack):
-        super().__init__(name, position, strength, attack, 'E')
-
-    def random_move(self, board):
-        directions = ['W', 'A', 'S', 'D', 'X']  # X means stay in place
-        direction = directions[randint(0, len(directions)-1)]
-        row, col = self.position
-
-        if direction == 'W' and row > 0 and board.board_positions_objects.get((row - 1, col)) != '#':
-            new_pos = (row - 1, col)
-        elif direction == 'S' and row < board.rows - 1 and board.board_positions_objects.get((row + 1, col)) != '#':
-            new_pos = (row + 1, col)
-        elif direction == 'A' and col > 0 and board.board_positions_objects.get((row, col - 1)) != '#':
-            new_pos = (row, col - 1)
-        elif direction == 'D' and col < board.cols - 1 and board.board_positions_objects.get((row, col + 1)) != '#':
-            new_pos = (row, col + 1)
-        else:
-            new_pos = (row, col)  # stay in place if move is invalid
-        
-        board.update_character_position(self, new_pos)
-    
+        new_pos = None
+        while new_pos is None:
+            move = input("Enter your move (W/A/S/D to move, X to stay): ").upper()
+            if move == 'W' and row > 0 and board.board_positions_objects[(row - 1, col)] != '#':
+                new_pos = (row - 1, col)
+            elif move == 'S' and row < board.rows - 1 and board.board_positions_objects[(row + 1, col)] != '#':
+                new_pos = (row + 1, col)
+            elif move == 'A' and col > 0 and board.board_positions_objects[(row, col - 1)] != '#':
+                new_pos = (row, col - 1)
+            elif move == 'D' and col < board.cols - 1 and board.board_positions_objects[(row, col + 1)] != '#':
+                new_pos = (row, col + 1)
+            elif move == 'X':
+                new_pos = (row, col)
+            else:
+                print("Invalid move. Please enter W, A, S, D, or X.")
 
 
 class Warrior(Enemy):
