@@ -56,22 +56,18 @@ class Board:
 
     def update_character_position(self, character, new_position):
         
-        self.board_positions_objects[character.position] = None
-        
+        self.board_positions_objects[character.position] = None 
         character.position = new_position
-
         former_obj = self.board_positions_objects[new_position]
 
         if former_obj is not None:
-            self.activate_former_object(character, former_obj)
-        
-        
-            
+            self.activate_former_object(character, former_obj) 
 
         self.board_positions_objects[new_position] = character
 
     def activate_former_object(self, character, former_obj):
         if isinstance(former_obj, Chest):
+            
             if isinstance(former_obj, Orbchest3):
                 former_obj.open_chest(character, self.enemies)
             elif isinstance(former_obj, TeleportChest):
@@ -81,7 +77,20 @@ class Board:
             self.board_positions_objects[character.position] = None
         
         elif isinstance(former_obj, Character):
-        
+            if character == self.hero or former_obj == self.hero:
+                character.fight(former_obj)
+                
+                if former_obj.strength <= 0:
+                    self.combatants.remove(former_obj)
+                    if former_obj in self.enemies:
+                        self.enemies.remove(former_obj)
+                    self.board_positions_objects[character.position] = None
+                
+                if character.strength <= 0:
+                    self.combatants.remove(character)
+                    if character in self.enemies:
+                        self.enemies.remove(character)
+                    self.board_positions_objects[character.position] = None
 
 class Character:
     def __init__(self, name, position, strength, attack, symbol):
