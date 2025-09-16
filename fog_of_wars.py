@@ -51,8 +51,21 @@ class Board:
         character.position = new_position
 
         former_obj = self.board_positions_objects[new_position]
-       
+        if isinstance(former_obj, Chest):   
 
+
+            if isinstance(former_obj, RegularChest):
+                former_obj.open_chest(character)
+            elif isinstance(former_obj, OrbChest1):
+                former_obj.open_chest(character)
+            elif isinstance(former_obj, OrbChest2):
+                former_obj.open_chest(character)
+            elif isinstance(former_obj, Orbchest3):
+                former_obj.open_chest(character, self.enemies)
+            elif isinstance(former_obj, TeleportChest):
+                former_obj.open_chest(character, self)
+            
+            self.board_positions_objects[new_position] = None
         self.board_positions_objects[new_position] = character
 
 
@@ -149,9 +162,6 @@ class Chest:
         self.value = value
         self.position = position
         self.symbol = 'C'
-
-    def open_chest(self, character):
-        pass
 
 class RegularChest(Chest): 
     def __init__(self, position):
