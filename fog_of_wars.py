@@ -110,21 +110,17 @@ class Board:
                 former_obj.open_chest(character)
             self.board_positions_objects[character.position] = None
         
-        elif isinstance(former_obj, Character):
-            if character == self.hero or former_obj == self.hero:
-                character.fight(former_obj)
-                
-                if former_obj.strength <= 0:
-                    self.combatants.remove(former_obj)
-                    if former_obj in self.enemies:
-                        self.enemies.remove(former_obj)
-                    self.board_positions_objects[character.position] = None
-                
-                if character.strength <= 0:
-                    self.combatants.remove(character)
-                    if character in self.enemies:
-                        self.enemies.remove(character)
-                    self.board_positions_objects[character.position] = None
+        elif isinstance(former_obj, Enemy) or isinstance(former_obj, Hero):
+            print(f"Combat: {character.name} vs {former_obj.name}!")
+            if character.attack > former_obj.attack:
+                print(f"{character.name} defeated {former_obj.name}!")
+                if isinstance(former_obj, Enemy):
+                    self.enemies.remove(former_obj)
+                    self.board_positions_objects[character.position] = None  # ✅ only clear if enemy lost
+                elif isinstance(former_obj, Hero):
+                    self.hero = None
+                    self.board_positions_objects[character.position] = None  # ✅ only clear if hero lost
+
 
 class Character:
     def __init__(self, name, position, strength, attack, symbol):
