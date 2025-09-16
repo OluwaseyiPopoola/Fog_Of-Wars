@@ -62,6 +62,15 @@ class Board:
 
         former_obj = self.board_positions_objects[new_position]
 
+        if former_obj is not None:
+            self.activate_former_object(character, former_obj)
+        
+        
+            
+
+        self.board_positions_objects[new_position] = character
+
+    def activate_former_object(self, character, former_obj):
         if isinstance(former_obj, Chest):
             if isinstance(former_obj, Orbchest3):
                 former_obj.open_chest(character, self.enemies)
@@ -69,13 +78,10 @@ class Board:
                 former_obj.open_chest(character, self)
             else:
                 former_obj.open_chest(character)
-            self.board_positions_objects[new_position] = None
-            
-            
-
-        self.board_positions_objects[new_position] = character
-
-    def activate_former
+            self.board_positions_objects[character.position] = None
+        
+        elif isinstance(former_obj, Character):
+        
 
 class Character:
     def __init__(self, name, position, strength, attack, symbol):
@@ -103,6 +109,19 @@ class Character:
         self.strength = 0
         self.attack = 0
         self.position = None
+        
+
+
+    def fight(self, other):
+        if self.attack >= other.strength:
+            other.die()
+            print(f"{self.name} defeated {other.name}!")
+        else:
+            self.reduce_strength(other.attack)
+            print(f"{self.name} fought {other.name} and now has {self.strength} strength left.")
+            if self.strength <= 0:
+                self.die()
+                print(f"{self.name} has been defeated by {other.name}!")
 
         
 
