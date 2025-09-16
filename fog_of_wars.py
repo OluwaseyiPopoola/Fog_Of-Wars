@@ -37,6 +37,19 @@ class Board:
             self.add_object(chest, tuple(chest.position))
 
         self.combatants = self.enemies.copy()
+
+    def display_full_board(self):
+        for row in range(self.rows):
+            for col in range(self.cols):
+                obj = self.board_positions_objects[(row, col)]
+                if obj is None:
+                    print('.', end=' ')
+                elif obj == '#':
+                    print('#', end=' ')
+                else:
+                    print(obj.symbol, end=' ')
+            print()  # New line after each row
+        print()  # Extra line for better readability
      
     def get_random_empty_position(self):
         empty_positions = [pos for pos in self.board_positions_objects if self.board_positions_objects[pos] is None]
@@ -279,9 +292,11 @@ def main():
     
     introduce_game_story()
     board = Board()
+    board.display_full_board()
     hero = Hero(input("Enter your hero's name: "), choose_empty_position(board))
     board.add_object(hero, hero.position)
     
+
     
 
 def display_game_title(msg):
