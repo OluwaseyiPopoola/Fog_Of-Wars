@@ -53,7 +53,7 @@ class Board:
             print()  # New line after each row
         print()  # Extra line for better readability
 
-    def display_hero_view(self, view_range=10):
+    def display_hero_view(self, view_range=5):
         if self.hero is None:
             print("Hero not placed on the board.")
             return
@@ -314,14 +314,34 @@ def main():
     
     introduce_game_story()
 
-    print("\nGenerating game board...\n")
-    sleep(2)  # Simulate loading time
+  
     board = Board()
     
     
     hero = Hero(input("Enter your hero's name: "), choose_empty_position(board))
     board.add_object(hero, hero.position)
     
+    print("\nGenerating game board...\n")
+    sleep(2)  # Simulate loading time
+    board.display_full_board()
+    board.display_hero_view()
+
+    while True:
+        if hero.strength <= 0:
+            print(f"{hero.name} has been defeated! Game Over.")
+            break
+        if not board.enemies:
+            print(f"Congratulations {hero.name}! You have defeated all enemies and won the game!")
+            break
+
+        hero.move_wasdx(board)
+        board.update_character_position(hero, hero.position)
+        board.display_hero_view()
+
+        for enemy in board.enemies:
+            enemy.random_move(board)
+        
+        board.display_hero_view()
 
     
 
