@@ -326,7 +326,7 @@ def main():
     
     print("\nGenerating game board...\n")
     sleep(2)  # Simulate loading time
-    board.display_full_board()
+    
     board.display_hero_view()
 
     while True:
