@@ -324,7 +324,6 @@ def main():
             break
 
         hero.move_wasdx(board)
-        board.display_hero_view()
 
         for enemy in board.enemies:
             enemy.random_move(board)
