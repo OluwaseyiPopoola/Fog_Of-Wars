@@ -175,7 +175,6 @@ class Hero(Character):
                 print("Invalid move. Please enter W, A, S, D, or X.")
                 continue
             
-            # ✅ Actually update the board here
             board.update_character_position(self, new_pos)
             break
 
@@ -325,7 +324,6 @@ def main():
             break
 
         hero.move_wasdx(board)
-        board.update_character_position(hero, hero.position)
         board.display_hero_view()
 
         for enemy in board.enemies:
