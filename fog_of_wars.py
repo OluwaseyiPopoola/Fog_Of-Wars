@@ -187,21 +187,28 @@ class Enemy(Character):
 
     def random_move(self, board):
         directions = ['W', 'A', 'S', 'D', 'X']  # X means stay in place
-        direction = directions[randint(0, len(directions)-1)]
-        row, col = self.position
+        new_pos = None
 
-        if direction == 'W' and row > 0 and board.board_positions_objects.get((row - 1, col)) != '#':
-            new_pos = (row - 1, col)
-        elif direction == 'S' and row < board.rows - 1 and board.board_positions_objects.get((row + 1, col)) != '#':
-            new_pos = (row + 1, col)
-        elif direction == 'A' and col > 0 and board.board_positions_objects.get((row, col - 1)) != '#':
-            new_pos = (row, col - 1)
-        elif direction == 'D' and col < board.cols - 1 and board.board_positions_objects.get((row, col + 1)) != '#':
-            new_pos = (row, col + 1)
-        else:
-            new_pos = (row, col)  # stay in place if move is invalid
+        while new_pos is None:
         
-        board.update_character_position(self, new_pos)
+            direction = directions[randint(0, len(directions)-1)]
+            row, col = self.position
+
+            if direction == 'W' and row > 0 and board.board_positions_objects.get((row - 1, col)) != '#':
+                new_pos = (row - 1, col)
+            elif direction == 'S' and row < board.rows - 1 and board.board_positions_objects.get((row + 1, col)) != '#':
+                new_pos = (row + 1, col)
+            elif direction == 'A' and col > 0 and board.board_positions_objects.get((row, col - 1)) != '#':
+                new_pos = (row, col - 1)
+            elif direction == 'D' and col < board.cols - 1 and board.board_positions_objects.get((row, col + 1)) != '#':
+                new_pos = (row, col + 1)
+            else:
+                new_pos = (row, col)  # stay in place if move is invalid
+            if new_pos in board.enemies:
+                new_pos = None
+                continue
+            board.update_character_position(self, new_pos)
+            break
     
 
 
@@ -282,7 +289,7 @@ class TeleportChest(Chest):
 
             print(f"{character.name} teleported to {new_position}.")
         else:
-            print("No valid positions to teleport.")
+            print(f"{character} has no valid positions to teleport.")
 
 
 def get_nearest_combatant(character, combatants):
