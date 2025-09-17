@@ -41,7 +41,8 @@ class Board:
         self.combatants = self.enemies.copy()
 
     
-    def display_hero_view(self, view_range=5):
+    def display_hero_view(self):
+        view_range = 2
         if self.hero is None:
             print("Hero not placed on the board.")
             return
