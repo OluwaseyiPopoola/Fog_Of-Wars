@@ -40,19 +40,7 @@ class Board:
 
         self.combatants = self.enemies.copy()
 
-    def display_full_board(self):
-        for row in range(self.rows):
-            for col in range(self.cols):
-                obj = self.board_positions_objects[(row, col)]
-                if obj is None:
-                    print('.', end='  ')
-                elif obj == '#':
-                    print('#', end='  ')
-                else:
-                    print(obj.symbol, end='  ')
-            print()  # New line after each row
-        print()  # Extra line for better readability
-
+    
     def display_hero_view(self, view_range=5):
         if self.hero is None:
             print("Hero not placed on the board.")
@@ -326,7 +314,7 @@ def main():
     
     print("\nGenerating game board...\n")
     sleep(2)  # Simulate loading time
-    board.display_full_board()
+    
     board.display_hero_view()
 
     while True:
