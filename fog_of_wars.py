@@ -307,7 +307,7 @@ def main():
     board = Board()
     
     
-    hero = Hero(input("Enter your hero's name: "), choose_empty_position(board))
+    hero = Hero(input("\nEnter your hero's name: "), choose_empty_position(board))
     board.add_object(hero, hero.position)
     
     print("\nGenerating game board...\n")
