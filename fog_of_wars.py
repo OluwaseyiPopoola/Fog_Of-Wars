@@ -49,8 +49,10 @@ class Board:
 
         hero_row, hero_col = self.hero.position
         for row in range(self.rows):
+            if abs(row - hero_row) > view_range:
+                continue
             for col in range(self.cols):
-                if abs(row - hero_row) <= view_range and abs(col - hero_col) <= view_range:
+                if abs(col - hero_col) <= view_range:
                     obj = self.board_positions_objects[(row, col)]
                     if obj is None:
                         print('.', end='  ')
@@ -65,7 +67,6 @@ class Board:
         empty_positions = [pos for pos in self.board_positions_objects if self.board_positions_objects[pos] is None]
         return empty_positions[randint(0, len(empty_positions)-1)] if empty_positions else None   
 
-
     def add_object(self, obj, position):
         if position in self.board_positions_objects:
             self.board_positions_objects[position] = obj
@@ -73,9 +74,6 @@ class Board:
         if isinstance(obj, Hero):
             self.hero = obj
             self.combatants.append(obj)
-            
-
-    
 
     def update_character_position(self, character, new_position):
         
