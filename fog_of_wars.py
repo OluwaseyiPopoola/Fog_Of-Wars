@@ -271,9 +271,10 @@ class TeleportChest(Chest):
         possible_positions = []
         for r in range(max(0, character.position[0] - 10), min(board.rows, character.position[0] + 11)):
             for c in range(max(0, character.position[1] - 10), min(board.cols, character.position[1] + 11)):
-                if board.board_positions_objects[(r, c)] != '#':  # ✅ No wall
+                if isinstance(character, Hero) and board.board_positions_objects[(r, c)] != '#':  # ✅ No wall
                     possible_positions.append((r, c))
-        
+                elif isinstance(character, Enemy) and board.board_positions_objects[(r, c)] != '#' and character not in board.enemies: 
+                    possible_positions.append((r, c))
         if possible_positions:
             new_position = possible_positions[randint(0, len(possible_positions) - 1)]
             
@@ -353,8 +354,9 @@ def choose_empty_position(board):
     empty_positions = [pos for pos, obj in board.board_positions_objects.items() if obj is None]
 
     print("\nAvailable positions for your hero:")
+    # New line for better readability
     for idx, pos in enumerate(empty_positions):
-        print(f"{idx + 1}: {pos}")
+        print(f"{idx + 1}: {pos}")  
 
     while True:
         try:
