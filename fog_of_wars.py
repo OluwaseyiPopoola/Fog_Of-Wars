@@ -90,7 +90,7 @@ class Board:
         if isinstance(former_obj, Chest):
             
             if isinstance(former_obj, Orbchest3):
-                former_obj.open_chest(character, self.enemies)
+                former_obj.open_chest(character, self.enemies, self)
             elif isinstance(former_obj, TeleportChest):
                 former_obj.open_chest(character, self)
             else:
@@ -98,7 +98,7 @@ class Board:
             self.board_positions_objects[character.position] = None
         
         elif isinstance(former_obj, Enemy) or isinstance(former_obj, Hero):
-            character.fight(former_obj)
+            character.fight(former_obj, self)
 
 class Character:
     def __init__(self, name, position, strength, attack, symbol):
@@ -280,10 +280,10 @@ class OrbChest2(OrbChest):
         print(f"Orb Chest 2 opened! {character.name}'s strength doubled and attack halved.")
 
 class Orbchest3(OrbChest):
-    def open_chest(self, character, combatants):
+    def open_chest(self, character, combatants, board):
         nearest_combatant = get_nearest_combatant(character, combatants)
         if nearest_combatant:
-            nearest_combatant.die()
+            nearest_combatant.die(board)
             print(f"Orb Chest 3 opened! Nearest combatant {nearest_combatant.name} has been removed from the game.")
         else:
             print("No enemies to remove.")
