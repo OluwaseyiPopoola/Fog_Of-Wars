@@ -130,11 +130,12 @@ class Character:
     def reduce_attack(self, amount):
         self.attack -= amount
 
-    def die(self):
+    def die(self, board):
         print(f"{self.name} has been defeated!")
         self.strength = 0
         self.attack = 0
         self.position = None
+        board.board_positions_objects[self.position] = None
         
 
 
