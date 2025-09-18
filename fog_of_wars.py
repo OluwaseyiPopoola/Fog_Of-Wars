@@ -205,10 +205,14 @@ class Enemy(Character):
             else:
                 new_pos = (row, col)  # stay in place if move is invalid
             
-            for enemy in board.enemies:
-                if enemy.position == new_pos and enemy != self:
-                    new_pos = None 
-                    continue 
+            # for enemy in board.enemies:
+            #     if enemy.position == new_pos and enemy != self:
+            #         new_pos = None 
+            #         continue 
+
+            if not all(enemy.position != new_pos or enemy == self for enemy in board.enemies):
+                new_pos = None
+                continue
 
             board.update_character_position(self, new_pos)
             break
@@ -284,6 +288,7 @@ class TeleportChest(Chest):
                 if board.board_positions_objects[(r, c)] != '#': 
                     if isinstance(character, Hero) or (isinstance(character, Enemy) and board.board_positions_objects[(r, c)] not in board.enemies):
                         possible_positions.append((r, c))
+
                 
         if possible_positions:
             new_position = possible_positions[randint(0, len(possible_positions) - 1)]
