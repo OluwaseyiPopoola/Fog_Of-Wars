@@ -145,9 +145,10 @@ class Character:
             elif other.strength >= self.strength:
                 winner, loser = other, self
         
-        if isinstance(loser, Enemy):
+        if isinstance(loser, Enemy) and loser in board.enemies:
             board.enemies.remove(loser)
-        board.combatants.remove(loser)
+        if loser in board.combatants:
+            board.combatants.remove(loser)
 
         board.board_positions_objects[loser.position] = winner
             
