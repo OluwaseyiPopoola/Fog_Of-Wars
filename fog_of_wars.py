@@ -98,16 +98,7 @@ class Board:
             self.board_positions_objects[character.position] = None
         
         elif isinstance(former_obj, Enemy) or isinstance(former_obj, Hero):
-            print(f"Combat: {character.name} vs {former_obj.name}!")
-            if character.attack > former_obj.attack:
-                print(f"{character.name} defeated {former_obj.name}!")
-                if isinstance(former_obj, Enemy):
-                    self.enemies.remove(former_obj)
-                    self.board_positions_objects[character.position] = None  # ✅ only clear if enemy lost
-                elif isinstance(former_obj, Hero):
-                    self.hero = None
-                    self.board_positions_objects[character.position] = None  # ✅ only clear if hero lost
-
+            character.fight(former_obj)
 
 class Character:
     def __init__(self, name, position, strength, attack, symbol):
@@ -139,16 +130,35 @@ class Character:
         
 
 
-    def fight(self, other):
+    def fight(self, other, board):
+        print(f"Combat: {self.name} vs {other.name}!")
         if self.attack >= other.strength:
-            other.die()
-            print(f"{self.name} defeated {other.name}!")
+            winner, loser = self, other
+        elif other.attack >= self.strength:
+            winner, loser = other, self
         else:
             self.reduce_strength(other.attack)
-            print(f"{self.name} fought {other.name} and now has {self.strength} strength left.")
-            if self.strength <= 0:
-                self.die()
-                print(f"{self.name} has been defeated by {other.name}!")
+            other.reduce_strength(self.attack)
+            
+            if self.strength > other.strength:
+                winner, loser = self, other
+            elif other.strength >= self.strength:
+                winner, loser = other, self
+        
+        if isinstance(loser, Enemy):
+            board.enemies.remove(loser)
+        board.combatants.remove(loser)
+
+        board.board_positions_objects[loser.position] = winner
+            
+
+        #     print(f"{self.name} defeated {other.name}!")
+        # else:
+        #     self.reduce_strength(other.attack)
+        #     print(f"{self.name} fought {other.name} and now has {self.strength} strength left.")
+        #     if self.strength <= 0:
+        #         self.die(board)
+        #         print(f"{self.name} has been defeated by {other.name}!")
 
 
         
